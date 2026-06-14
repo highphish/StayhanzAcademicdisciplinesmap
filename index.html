@@ -292,9 +292,11 @@ table.mx{border-collapse:collapse;font-size:0.72rem;}
 .net-intro h2{font-weight:700;font-size:1.55rem;letter-spacing:-0.018em;color:var(--text);margin-bottom:0.55rem;}
 .net-intro p{font-size:0.86rem;color:var(--muted);line-height:1.8;max-width:800px;}
 .net-intro strong{color:var(--text);font-weight:600;}
-.net-filters{display:flex;gap:0.5rem;flex-wrap:wrap;margin:1.4rem 0 1.1rem;}
-.net-fchip{--dc:var(--accent);background:var(--surface);border:1px solid var(--border2);color:var(--muted);border-radius:980px;padding:0.48rem 1rem;font-family:inherit;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm);}
-.net-fchip:hover{color:var(--text);border-color:var(--dc);}
+.net-filters{position:absolute;left:14px;right:64px;top:14px;z-index:41;display:flex;flex-direction:row;flex-wrap:nowrap;gap:6px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 4px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
+.net-filters::-webkit-scrollbar{height:5px;}
+.net-filters::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.net-fchip{--dc:var(--accent);flex-shrink:0;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:0.4rem 0.75rem;font-family:inherit;font-size:0.74rem;font-weight:500;cursor:pointer;transition:all 0.15s;box-shadow:var(--shadow-sm);white-space:nowrap;}
+.net-fchip:hover{border-color:var(--dc);color:var(--dc);}
 .net-fchip.active{color:#fff;border-color:var(--dc);background:var(--dc);}
 .net-wrap{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);touch-action:none;overscroll-behavior:contain;}
 #netSvg{width:100%;height:auto;display:block;min-height:420px;}
@@ -5417,12 +5419,12 @@ function renderNetwork(){
     <div class="net-intro">
       ${(NET_INTRO[LANG]||NET_INTRO.ko)}
     </div>
-    <div class="net-filters">
-      <button class="net-fchip ${netFilter==='all'?'active':''}" onclick="setNetFilter('all')">전체 보기</button>
-      ${domains.map(d=>`<button class="net-fchip ${netFilter===d.id?'active':''}" style="--dc:${d.color}" onclick="setNetFilter('${d.id}')">${d.icon} ${d.name}</button>`).join('')}
-    </div>
     <div class="net-wrap" id="netWrap" style="height:min(78vh,860px)">
       <svg id="netSvg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;-ms-touch-action:none"></svg>
+      <div class="net-filters">
+        <button class="net-fchip ${netFilter==='all'?'active':''}" onclick="setNetFilter('all')">전체 보기</button>
+        ${domains.map(d=>`<button class="net-fchip ${netFilter===d.id?'active':''}" style="--dc:${d.color}" onclick="setNetFilter('${d.id}')">${d.icon} ${d.name}</button>`).join('')}
+      </div>
       <div class="net-tip" id="netTip"></div>
       <div class="net-info" id="netInfo"></div>
       <div class="net-ctrl">
